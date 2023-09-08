@@ -1,0 +1,29 @@
+﻿﻿@using X.PagedList
+@using X.PagedList.Mvc.Core
+@using X.PagedList.Web.Common
+
+<!--Lệnh Phân Trang-->
+<!--Code này dùng cho MVC-->
+@model IEnumerable<object>
+
+@{
+	string _params = "";
+	foreach (var item in Context.Request.Query)
+	{
+		if (item.Key != "page")
+		{
+			_params += $"&{item.Key}={item.Value}";
+		}
+	}
+	string currenUrl =	$"{Context.Request.Path.Value}"
+							+ $"?{_params}";
+}
+<div class="my-4">
+	@Html.PagedListPager((IPagedList)Model,
+	page => currenUrl + "&page=" + page, 
+	new PagedListRenderOptions
+	{
+	LiElementClasses = new string[] { "page-item" },
+	PageClasses = new string[] { "page-link" },
+	})
+</div>
